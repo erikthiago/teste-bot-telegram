@@ -277,13 +277,15 @@ namespace TesteBotTelegram.Service
         public async void SendMessage()
         {
             var http = new HttpClient();
-            var getInfoChat = await http.PostAsync("https://api.telegram.org/bot<seu_token_do_bot>/getUpdates", null);
+            var getInfoChat = await http.PostAsync("https://api.telegram.org/bot1790618131:AAEJOnDq3quTGEYzghj9Eq1ZMjD2RS9HGZc/getUpdates", null);
 
             var chatInfo = JsonConvert.DeserializeObject<Root>(await getInfoChat.Content.ReadAsStringAsync());
 
-            var sendMessage = string.Format("https://api.telegram.org/bot{0}/sendMessage?chat_id={1}&text={2}", "<seu_tokenj_do_bot>", 
+            var urlString = string.Format("https://api.telegram.org/bot{0}/sendMessage?chat_id={1}&text={2}", "1790618131:AAEJOnDq3quTGEYzghj9Eq1ZMjD2RS9HGZc", 
                 chatInfo.result[0].my_chat_member.chat.id,
                 "Teste do teste");
+
+            await http.GetAsync(urlString);
         }
     }
 }
