@@ -1,20 +1,22 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.IO;
 using System.Linq;
+using System.Net.Http;
 using System.Threading.Tasks;
 using Telegram.Bot;
 using Telegram.Bot.Args;
 using Telegram.Bot.Types;
 using Telegram.Bot.Types.Enums;
-using Telegram.Bot.Types.InlineQueryResults;
 using Telegram.Bot.Types.InputFiles;
 using Telegram.Bot.Types.ReplyMarkups;
+using TesteBotTelegram.Model;
 
 namespace TesteBotTelegram.Service
 {
     public class TelegramService : ITelegramService
     {
-        private readonly string _token = "seu_token_aqui";
+        private readonly string _token = "1790618131:AAEJOnDq3quTGEYzghj9Eq1ZMjD2RS9HGZc";
         static ITelegramBotClient botClient;
 
         public async void BotHandler()
@@ -270,6 +272,18 @@ namespace TesteBotTelegram.Service
                 receiveErrorEventArgs.ApiRequestException.ErrorCode,
                 receiveErrorEventArgs.ApiRequestException.Message
             );
+        }
+
+        public async void SendMessage()
+        {
+            var http = new HttpClient();
+            var getInfoChat = await http.PostAsync("https://api.telegram.org/bot<seu_token_do_bot>/getUpdates", null);
+
+            var chatInfo = JsonConvert.DeserializeObject<Root>(await getInfoChat.Content.ReadAsStringAsync());
+
+            var sendMessage = string.Format("https://api.telegram.org/bot{0}/sendMessage?chat_id={1}&text={2}", "<seu_tokenj_do_bot>", 
+                chatInfo.result[0].my_chat_member.chat.id,
+                "Teste do teste");
         }
     }
 }

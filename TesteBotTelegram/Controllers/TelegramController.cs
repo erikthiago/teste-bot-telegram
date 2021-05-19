@@ -22,5 +22,12 @@ namespace TesteBotTelegram.Controllers
         {
             _telegramService.BotHandler();
         }
+
+        // GET: api/<TelegramController>/send
+        [HttpGet("send")]
+        public void Send()
+        {
+            _telegramService.SendMessage();
+        }
     }
 }
